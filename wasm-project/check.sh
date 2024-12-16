@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-RUSTFLAGS="-Ctarget-cpu=mvp" \
-rustup run nightly-2024-08-01 cargo rustc \
--Zbuild-std=core,alloc,panic_abort \
---target=wasm32-unknown-unknown \
+rustup run nightly-2024-12-14 cargo rustc \
+--target=wasm32v1-none \
 --color=always \
 --manifest-path="$(pwd)/Cargo.toml" \
 --profile release \
@@ -11,8 +9,8 @@ rustup run nightly-2024-08-01 cargo rustc \
 -C link-arg=--import-memory \
 -C linker-plugin-lto # try to remove this
 
-rustup run nightly-2024-08-01 cargo run \
+rustup run nightly-2024-12-14 cargo run \
 --release \
 --manifest-path=../wasm-checker/Cargo.toml \
 -- \
-./target/wasm32-unknown-unknown/release/wasm_program.wasm
+./target/wasm32v1-none/release/wasm_program.wasm

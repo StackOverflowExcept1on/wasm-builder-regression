@@ -1,6 +1,5 @@
 [toolchain]
-# try nightly-2024-08-01, nightly-2024-07-31
-channel = "nightly-2024-08-01"
-components = [ "llvm-tools", "rust-src" ]
-targets = [ "wasm32-unknown-unknown" ]
+channel = "nightly-2024-12-14"
+components = [ "llvm-tools" ]
+targets = [ "wasm32v1-none" ]
 profile = "default"
