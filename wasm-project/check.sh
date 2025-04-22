@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+RUSTFLAGS="--emit=llvm-ir" \
 rustup run nightly-2025-04-22 cargo rustc \
 --target=wasm32v1-none \
 --color=always \
