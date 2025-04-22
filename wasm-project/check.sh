@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-rustup run nightly-2024-12-14 cargo rustc \
+rustup run nightly-2025-04-22 cargo rustc \
 --target=wasm32v1-none \
 --color=always \
 --manifest-path="$(pwd)/Cargo.toml" \
@@ -9,7 +9,7 @@ rustup run nightly-2024-12-14 cargo rustc \
 -C link-arg=--import-memory \
 -C linker-plugin-lto # try to remove this
 
-rustup run nightly-2024-12-14 cargo run \
+rustup run nightly-2025-04-22 cargo run \
 --release \
 --manifest-path=../wasm-checker/Cargo.toml \
 -- \

@@ -1,23 +1,40 @@
 #![no_std]
 
-extern "C" {
-    fn gr_panic(payload: *const u8, len: u32) -> !;
+extern crate alloc;
+
+use core::alloc::{GlobalAlloc, Layout};
+
+#[global_allocator]
+static ALLOC: GlobalDlmalloc = GlobalDlmalloc;
+
+struct GlobalDlmalloc;
+
+unsafe impl GlobalAlloc for GlobalDlmalloc {
+    #[inline]
+    unsafe fn alloc(&self, _layout: Layout) -> *mut u8 {
+        core::ptr::null_mut()
+    }
+
+    #[inline]
+    unsafe fn dealloc(&self, _ptr: *mut u8, _layout: Layout) {}
 }
 
-#[no_mangle]
+unsafe extern "C" {
+    pub fn gr_size(length: *mut u32);
+}
+
+fn size() -> usize {
+    let mut size = 0u32;
+    unsafe { gr_size(&mut size as *mut u32) };
+    size as usize
+}
+
+#[unsafe(no_mangle)]
 extern "C" fn init() {
-    panic!("msg");
+    let _ = alloc::vec![0u8; size()];
 }
 
 #[panic_handler]
-fn my_panic(panic_info: &core::panic::PanicInfo) -> ! {
-    use arrayvec::ArrayString;
-    use core::fmt::Write;
-
-    let message = panic_info.message();
-    let mut debug_msg = ArrayString::<1024>::new();
-
-    let _ = write!(&mut debug_msg, "panicked with '{message}'");
-
-    unsafe { gr_panic(debug_msg.as_ptr(), debug_msg.len() as u32) }
+fn my_panic(_: &core::panic::PanicInfo) -> ! {
+    loop {}
 }
