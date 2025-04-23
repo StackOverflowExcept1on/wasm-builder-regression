@@ -6,9 +6,12 @@ rustup run nightly-2025-04-22 cargo rustc \
 --color=always \
 --manifest-path="$(pwd)/Cargo.toml" \
 --profile release \
+--verbose \
 -- \
 -C link-arg=--import-memory \
--C linker-plugin-lto # try to remove this
+-C linker-plugin-lto \
+-C save-temps \
+--print link-args
 
 rustup run nightly-2025-04-22 cargo run \
 --release \
