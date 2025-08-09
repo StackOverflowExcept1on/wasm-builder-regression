@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 RUSTFLAGS="--emit=llvm-ir" \
-rustup run nightly-2025-08-07 cargo rustc \
+rustup run nightly-2025-08-09 cargo rustc \
 --target=wasm32v1-none \
 --color=always \
 --manifest-path="$(pwd)/Cargo.toml" \
@@ -13,7 +13,7 @@ rustup run nightly-2025-08-07 cargo rustc \
 -C save-temps \
 --print link-args
 
-rustup run nightly-2025-08-07 cargo run \
+rustup run nightly-2025-08-09 cargo run \
 --release \
 --manifest-path=../wasm-checker/Cargo.toml \
 -- \

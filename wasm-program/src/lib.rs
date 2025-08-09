@@ -19,19 +19,9 @@ unsafe impl GlobalAlloc for GlobalDlmalloc {
     unsafe fn dealloc(&self, _ptr: *mut u8, _layout: Layout) {}
 }
 
-unsafe extern "C" {
-    pub fn gr_size(length: *mut u32);
-}
-
-fn size() -> usize {
-    let mut size = 0u32;
-    unsafe { gr_size(&mut size as *mut u32) };
-    size as usize
-}
-
 #[unsafe(no_mangle)]
 extern "C" fn init() {
-    let _ = alloc::vec![0u8; size()];
+    alloc::alloc::handle_alloc_error(Layout::new::<[u8; 64 * 1024]>());
 }
 
 #[panic_handler]
