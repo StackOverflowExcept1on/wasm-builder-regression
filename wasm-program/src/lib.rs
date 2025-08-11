@@ -2,7 +2,7 @@
 
 extern crate alloc;
 
-use core::alloc::{GlobalAlloc, Layout};
+use core::{mem::MaybeUninit, alloc::{GlobalAlloc, Layout}};
 
 #[global_allocator]
 static ALLOC: GlobalDlmalloc = GlobalDlmalloc;
@@ -18,6 +18,9 @@ unsafe impl GlobalAlloc for GlobalDlmalloc {
     #[inline]
     unsafe fn dealloc(&self, _ptr: *mut u8, _layout: Layout) {}
 }
+
+#[used]
+static mut BUF: MaybeUninit<[u8; 1024]> = MaybeUninit::uninit();
 
 #[unsafe(no_mangle)]
 extern "C" fn init() {
